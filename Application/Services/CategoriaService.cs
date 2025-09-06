@@ -6,8 +6,14 @@ using Domain.Interfaces.Repository;
 
 namespace Application.services
 {
+    /// <summary>
+    /// Servicio para la gestión de categorías, implementando la lógica de negocio.
+    /// </summary>
     public class CategoriaService(IRepository<Categoria> categoriaRepository) : ICategoriaService
     {
+        /// <summary>
+        /// Guarda una nueva categoría en la base de datos.
+        /// </summary>
         public async Task<GeneralResponse<Categoria>> SaveData(CategoriaDTO categoria)
         {
             var response = new GeneralResponse<Categoria>();
@@ -42,6 +48,9 @@ namespace Application.services
             }
         }
 
+        /// <summary>
+        /// Obtiene todas las categorías activas.
+        /// </summary>
         public async Task<GeneralResponse<List<Categoria>>> GetAll()
         {
             var response = new GeneralResponse<List<Categoria>>();
@@ -64,6 +73,9 @@ namespace Application.services
             }
         }
 
+        /// <summary>
+        /// Actualiza una categoría existente.
+        /// </summary>
         public async Task<GeneralResponse<Categoria>> UpdateData(CategoriaDTO categoria)
         {
             var response = new GeneralResponse<Categoria>();
@@ -100,6 +112,9 @@ namespace Application.services
             }
         }
 
+        /// <summary>
+        /// Realiza una eliminación lógica de una categoría cambiando su estado.
+        /// </summary>
         public async Task<GeneralResponse<Categoria>> DeleteData(long id)
         {
             var response = new GeneralResponse<Categoria>();
@@ -113,7 +128,7 @@ namespace Application.services
                     return response;
                 }
 
-                categoria.Estado = false; 
+                categoria.Estado = false;
 
                 await categoriaRepository.UpdateAsync(categoria);
                 response.ObjectResponse = categoria;

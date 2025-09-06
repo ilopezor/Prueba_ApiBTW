@@ -6,10 +6,16 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Prueba_ApiBTW.Controllers
 {
+    /// <summary>
+    /// Controlador para la gestión de categorías.
+    /// </summary>
     [ApiController]
     [Route("api/[controller]")]
     public class CategoriaController(ICategoriaService categoriaService) : ControllerBase
     {
+        /// <summary>
+        /// Obtiene todas las categorías.
+        /// </summary>
         [HttpGet]
         public async Task<ActionResult<GeneralResponse<IEnumerable<Categoria>>>> GetAll()
         {
@@ -37,6 +43,9 @@ namespace Prueba_ApiBTW.Controllers
             }
         }
 
+        /// <summary>
+        /// Actualiza el estado de una categoría (eliminación lógica).
+        /// </summary>
         [HttpPut("Status")]
         public async Task<ActionResult<GeneralResponse<Categoria>>> UpdateStatus([FromBody] long id)
         {
@@ -64,6 +73,9 @@ namespace Prueba_ApiBTW.Controllers
             }
         }
 
+        /// <summary>
+        /// Crea una nueva categoría.
+        /// </summary>
         [HttpPost]
         public async Task<ActionResult<GeneralResponse<Categoria>>> Create(CategoriaDTO categoria)
         {
@@ -91,6 +103,9 @@ namespace Prueba_ApiBTW.Controllers
             }
         }
 
+        /// <summary>
+        /// Actualiza una categoría existente.
+        /// </summary>
         [HttpPut]
         public async Task<ActionResult<GeneralResponse<Categoria>>> Update(CategoriaDTO categoria)
         {

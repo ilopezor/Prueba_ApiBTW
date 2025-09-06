@@ -6,8 +6,19 @@ using Domain.Interfaces.Repository;
 
 namespace Application.services
 {
+    /// <summary>
+    /// Service class that manages business logic related to Movimientos.
+    /// Handles retrieving and creating movement records with validations
+    /// and mapping to DTOs.
+    /// </summary>
     public class MovimientoService(IMovimientoRepository movimientosRepository) : IMovimientoService
     {
+        /// <summary>
+        /// Retrieves all movements including related entities (Producto and TipoMovimiento).
+        /// </summary>
+        /// <returns>
+        /// A <see cref="GeneralResponse{T}"/> containing a list of <see cref="MovimientoDTO"/>.
+        /// </returns>
         public async Task<GeneralResponse<List<MovimientoDTO>>> GetAll()
         {
             var response = new GeneralResponse<List<MovimientoDTO>>();
@@ -22,21 +33,19 @@ namespace Application.services
                     return response;
                 }
 
-                List<MovimientoDTO> movimientoDto = movimientos.Select(p => 
+                List<MovimientoDTO> movimientoDto = movimientos.Select(p =>
                     new MovimientoDTO()
                     {
                         idMovimientos = p.IdMovimientos,
                         cantidad = p.Cantidad,
                         comentario = p.Comentario,
-                        fechaMovimiento  = p.FechaMovimiento,
+                        fechaMovimiento = p.FechaMovimiento,
                         idProducto = p.IdProducto,
                         idTipoMovimiento = p.IdTipoMovimiento,
                         producto = p.IdProductoNavigation != null ? p.IdProductoNavigation.NombreProducto : string.Empty,
                         tipoMovimiento = p.IdTipoMovimientoNavigation != null ? p.IdTipoMovimientoNavigation.Descripcion : string.Empty
                     }
                 ).ToList();
-
-                
 
                 response.ObjectResponse = movimientoDto;
                 response.OperationSuccess = true;
@@ -51,12 +60,18 @@ namespace Application.services
             }
         }
 
+        /// <summary>
+        /// Creates a new movement record in the system based on the provided DTO.
+        /// </summary>
+        /// <param name="order">The <see cref="MovimientoDTO"/> with movement data.</param>
+        /// <returns>
+        /// A <see cref="GeneralResponse{T}"/> containing the created <see cref="Movimientos"/> entity.
+        /// </returns>
         public async Task<GeneralResponse<Movimientos>> CreateOrder(MovimientoDTO order)
         {
             var response = new GeneralResponse<Movimientos>();
             try
             {
-
                 if (order == null)
                 {
                     response.OperationSuccess = false;
@@ -89,6 +104,5 @@ namespace Application.services
                 return response;
             }
         }
-
     }
 }
